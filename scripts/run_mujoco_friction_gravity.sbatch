@@ -14,11 +14,10 @@ set -euo pipefail
 cd /work/lz256/MOBODY
 mkdir -p slurm_logs runs
 
-# uv lives in ~/.local/bin after `curl -LsSf https://astral.sh/uv/install.sh | sh`
-export PATH="$HOME/.local/bin:$PATH"
-
-# Idempotent: builds .venv from pyproject.toml + uv.lock on first run, no-op after.
-uv sync --frozen
+# Conda env (matches README install: `conda create -n offdynamics ...`)
+module load Anaconda3
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate offdynamics
 
 # ---- sweep definition -------------------------------------------------------
 # 1 policy x 2 envs x 2 shift_types x 2 shift_levels x 1 seed = 8 jobs
@@ -75,4 +74,4 @@ else  # DARA
   )
 fi
 
-srun uv run python -u train_mobody.py "${COMMON_ARGS[@]}" "${EXTRA_ARGS[@]}"
+srun python -u train_mobody.py "${COMMON_ARGS[@]}" "${EXTRA_ARGS[@]}"

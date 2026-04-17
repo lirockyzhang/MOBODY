@@ -15,7 +15,7 @@ cd /work/lz256/MOBODY
 mkdir -p slurm_logs runs
 
 # Conda env (matches README install: `conda create -n offdynamics ...`)
-module load Anaconda3
+module load Anaconda3/2024.02
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate offdynamics
 
